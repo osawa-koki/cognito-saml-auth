@@ -69,5 +69,8 @@ export class IndexStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'ENTITYID', {
       value: `urn:amazon:cognito:sp:${userPool.userPoolId}`,
     });
+    new cdk.CfnOutput(this, 'StartURL', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com/login?response_type=code&client_id=${userPoolClient.userPoolClientId}&redirect_uri=${process.env.CALLBACK_URL!}`,
+    });
   }
 }

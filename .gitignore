@@ -1,4 +1,5 @@
 saml-metadata.xml
+.env.dynamic
 
 *.js
 !jest.config.js
