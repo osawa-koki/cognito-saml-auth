@@ -1,3 +1,5 @@
+saml-metadata.xml
+
 *.js
 !jest.config.js
 *.d.ts
