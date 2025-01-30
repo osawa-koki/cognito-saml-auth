@@ -11,10 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('./web-public/'));
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
 app.get('/api/auth/saml', (req, res) => {
   res.redirect(process.env.START_URL!);
 });
