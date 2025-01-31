@@ -79,5 +79,8 @@ export class IndexStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'ClientID', {
       value: userPoolClient.userPoolClientId,
     });
+    new cdk.CfnOutput(this, 'CognitoJwksUrl', {
+      value: `https://cognito-idp.${this.region}.amazonaws.com/${userPool.userPoolId}/.well-known/jwks.json`,
+    });
   }
 }
