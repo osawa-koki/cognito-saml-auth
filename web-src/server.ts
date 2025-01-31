@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import code2token from './utils/code2token';
 import checkToken from './utils/checkToken';
 import refreshToken from './utils/refreshToken';
+import getUserInfo from './utils/getUserInfo';
 
 dotenv.config();
 dotenv.config({ path: '.env.dynamic' });
@@ -54,6 +55,15 @@ app.get('/api/auth/check-token', async (req, res) => {
   const result = await checkToken({
     token: token,
     jwksUrl: process.env.COGNITO_JWKS_URL!,
+  });
+  res.json(result);
+});
+
+app.get('/api/auth/user-info', async (req, res) => {
+  const token = req.query.token as string;
+  const result = await getUserInfo({
+    token: token,
+    userInfoEndpoint: process.env.USER_INFO_ENDPOINT!,
   });
   res.json(result);
 });

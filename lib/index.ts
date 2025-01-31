@@ -76,6 +76,9 @@ export class IndexStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'TokenEndpoint', {
       value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com/oauth2/token`,
     });
+    new cdk.CfnOutput(this, 'UserInfoEndpoint', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com/oauth2/userInfo`,
+    });
     new cdk.CfnOutput(this, 'ClientID', {
       value: userPoolClient.userPoolClientId,
     });

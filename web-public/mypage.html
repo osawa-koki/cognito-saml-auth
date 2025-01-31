@@ -56,7 +56,7 @@
 
     function checkAccessToken() {
       const accessToken = accessTokenTextArea.value;
-      fetch(`/api/auth/check-token?token=${accessToken}`)
+      fetch(`/api/auth/user-info?token=${accessToken}`)
         .then((response) => response.json())
         .then((data) => {
           if (data == null) {
