@@ -11,15 +11,15 @@ interface JWK {
 }
 
 interface Props {
-  token: string;
+  idToken: string;
   jwksUrl: string;
 }
 
 export default async function checkIdToken(props: Props) {
   try {
-    const { token, jwksUrl } = props;
+    const { idToken, jwksUrl } = props;
 
-    const header = jwt.decode(token, { complete: true })?.header;
+    const header = jwt.decode(idToken, { complete: true })?.header;
     if (header == null || header.kid == null) {
       throw new Error('Invalid token header');
     }
@@ -33,7 +33,7 @@ export default async function checkIdToken(props: Props) {
     }
     const publicKey = jwkToPem(key);
 
-    const decodedToken = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+    const decodedToken = jwt.verify(idToken, publicKey, { algorithms: ['RS256'] });
     return decodedToken;
   } catch (error) {
     console.error(error);

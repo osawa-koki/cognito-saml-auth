@@ -43,7 +43,7 @@
 
     function checkIdToken() {
       const idToken = idTokenTextArea.value;
-      fetch(`/api/auth/check-token?token=${idToken}`)
+      fetch(`/api/auth/check-id-token?token=${idToken}`)
         .then((response) => response.json())
         .then((data) => {
           if (data == null) {

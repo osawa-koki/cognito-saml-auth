@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 
 import code2token from './utils/code2token';
-import checkToken from './utils/checkToken';
+import checkIdToken from './utils/checkIdToken';
 import refreshToken from './utils/refreshToken';
 import getUserInfo from './utils/getUserInfo';
 
@@ -50,19 +50,19 @@ app.get('/api/auth/refresh-token', async (req, res) => {
   res.json(result);
 });
 
-app.get('/api/auth/check-token', async (req, res) => {
-  const token = req.query.token as string;
-  const result = await checkToken({
-    token: token,
+app.get('/api/auth/check-id-token', async (req, res) => {
+  const idToken = req.query.token as string;
+  const result = await checkIdToken({
+    idToken: idToken,
     jwksUrl: process.env.COGNITO_JWKS_URL!,
   });
   res.json(result);
 });
 
 app.get('/api/auth/user-info', async (req, res) => {
-  const token = req.query.token as string;
+  const accessToken = req.query.token as string;
   const result = await getUserInfo({
-    token: token,
+    accessToken: accessToken,
     userInfoEndpoint: process.env.USER_INFO_ENDPOINT!,
   });
   res.json(result);

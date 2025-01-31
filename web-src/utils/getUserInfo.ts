@@ -1,16 +1,16 @@
 import axios from 'axios';
 
 interface Props {
-  token: string;
+  accessToken: string;
   userInfoEndpoint: string;
 }
 
 export default async function getUserInfo(props: Props) {
   try {
-    const { token, userInfoEndpoint } = props;
+    const { accessToken, userInfoEndpoint } = props;
     const response = await axios.get(userInfoEndpoint, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     return response.data;
