@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>マイページ</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>マイページ</h1>
+    <table>
+      <tr>
+        <th>IDトークン</th>
+        <td><textarea id="idToken" rows="10" cols="80"></textarea></td>
+        <td><button onclick="exec('idToken')">Check</button></td>
+      </tr>
+      <tr>
+        <th>アクセストークン</th>
+        <td><textarea id="accessToken" rows="10" cols="80"></textarea></td>
+        <td><button onclick="exec('accessToken')">Check</button></td>
+      </tr>
+      <tr>
+        <th>リフレッシュトークン</th>
+        <td><textarea id="refreshToken" rows="10" cols="80"></textarea></td>
+        <td><button onclick="exec('refreshToken')">Refresh</button></td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    const idTokenTextArea = document.getElementById('idToken');
+    const accessTokenTextArea = document.getElementById('accessToken');
+    const refreshTokenTextArea = document.getElementById('refreshToken');
+    const savedIdToken = window.localStorage.getItem('idToken');
+    const savedAccessToken = window.localStorage.getItem('accessToken');
+    const savedRefreshToken = window.localStorage.getItem('refreshToken');
+    idTokenTextArea.value = savedIdToken;
+    accessTokenTextArea.value = savedAccessToken;
+    refreshTokenTextArea.value = savedRefreshToken;
+
+    function checkIdToken() {
+      const idToken = idTokenTextArea.value;
+      fetch(`/api/auth/check-id-token?token=${idToken}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
+
+    function checkAccessToken() {
+    }
+
+    function refreshRefreshToken() {
+    }
+
+    function exec(tokenName) {
+      switch (tokenName) {
+        case 'idToken':
+          checkIdToken();
+          break;
+        case 'accessToken':
+          checkAccessToken();
+          break;
+        case 'refreshToken':
+          refreshRefreshToken();
+          break;
+      }
+    }
+  </script>
+</body>
+
+</html>
