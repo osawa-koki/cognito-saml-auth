@@ -43,7 +43,7 @@
 
     function checkIdToken() {
       const idToken = idTokenTextArea.value;
-      fetch(`/api/auth/check-id-token?token=${idToken}`)
+      fetch(`/api/auth/check-token?token=${idToken}`)
         .then((response) => response.json())
         .then((data) => {
           if (data == null) {
@@ -55,6 +55,16 @@
     }
 
     function checkAccessToken() {
+      const accessToken = accessTokenTextArea.value;
+      fetch(`/api/auth/check-token?token=${accessToken}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data == null) {
+            window.alert('Invalid token 🚨🚨🚨');
+            return;
+          }
+          window.alert(`Valid token 🎉🎉🎉\n${JSON.stringify(data)}`);
+        });
     }
 
     function refreshRefreshToken() {
