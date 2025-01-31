@@ -68,6 +68,22 @@
     }
 
     function refreshRefreshToken() {
+      const refreshToken = refreshTokenTextArea.value;
+      fetch(`/api/auth/refresh-token?token=${refreshToken}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data == null) {
+            window.alert('Failed to refresh token 🚨🚨🚨');
+            return;
+          }
+          const newIdToken = data.id_token;
+          const newAccessToken = data.access_token;
+          window.localStorage.setItem('idToken', newIdToken);
+          window.localStorage.setItem('accessToken', newAccessToken);
+          idTokenTextArea.value = newIdToken;
+          accessTokenTextArea.value = newAccessToken;
+          window.alert(`Refreshed token 🎉🎉🎉\n${JSON.stringify(data)}`);
+        });
     }
 
     function exec(tokenName) {
