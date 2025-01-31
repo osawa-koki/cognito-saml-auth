@@ -28,6 +28,7 @@
         <td><button onclick="exec('refreshToken')">Refresh</button></td>
       </tr>
     </table>
+    <button onclick="logout()">Logout</button>
   </div>
 
   <script>
@@ -98,6 +99,11 @@
           refreshRefreshToken();
           break;
       }
+    }
+
+    function logout() {
+      window.localStorage.clear();
+      window.location.href = '/';
     }
   </script>
 </body>
