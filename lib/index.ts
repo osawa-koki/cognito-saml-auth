@@ -30,7 +30,8 @@ export class IndexStack extends cdk.Stack {
       },
       attributeMapping: {
         email: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-        name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
+        given_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+        family_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
       },
     });
 
@@ -68,6 +69,22 @@ export class IndexStack extends cdk.Stack {
     });
     new cdk.CfnOutput(this, 'ENTITYID', {
       value: `urn:amazon:cognito:sp:${userPool.userPoolId}`,
+    });
+
+    new cdk.CfnOutput(this, 'StartURL', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com/login?response_type=code&client_id=${userPoolClient.userPoolClientId}&redirect_uri=${process.env.CALLBACK_URL!}`,
+    });
+    new cdk.CfnOutput(this, 'TokenEndpoint', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com/oauth2/token`,
+    });
+    new cdk.CfnOutput(this, 'UserInfoEndpoint', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com/oauth2/userInfo`,
+    });
+    new cdk.CfnOutput(this, 'ClientID', {
+      value: userPoolClient.userPoolClientId,
+    });
+    new cdk.CfnOutput(this, 'CognitoJwksUrl', {
+      value: `https://cognito-idp.${this.region}.amazonaws.com/${userPool.userPoolId}/.well-known/jwks.json`,
     });
   }
 }

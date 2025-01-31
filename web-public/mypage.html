@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>マイページ</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>マイページ</h1>
+    <table>
+      <tr>
+        <th>IDトークン</th>
+        <td><textarea id="idToken" rows="10" cols="80"></textarea></td>
+        <td><button onclick="exec('idToken')">Check</button></td>
+      </tr>
+      <tr>
+        <th>アクセストークン</th>
+        <td><textarea id="accessToken" rows="10" cols="80"></textarea></td>
+        <td><button onclick="exec('accessToken')">Check</button></td>
+      </tr>
+      <tr>
+        <th>リフレッシュトークン</th>
+        <td><textarea id="refreshToken" rows="10" cols="80"></textarea></td>
+        <td><button onclick="exec('refreshToken')">Refresh</button></td>
+      </tr>
+    </table>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const idTokenTextArea = document.getElementById('idToken');
+    const accessTokenTextArea = document.getElementById('accessToken');
+    const refreshTokenTextArea = document.getElementById('refreshToken');
+    const savedIdToken = window.localStorage.getItem('idToken');
+    const savedAccessToken = window.localStorage.getItem('accessToken');
+    const savedRefreshToken = window.localStorage.getItem('refreshToken');
+    idTokenTextArea.value = savedIdToken;
+    accessTokenTextArea.value = savedAccessToken;
+    refreshTokenTextArea.value = savedRefreshToken;
+
+    function checkIdToken() {
+      const idToken = idTokenTextArea.value;
+      fetch(`/api/auth/check-id-token?token=${idToken}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data == null) {
+            window.alert('Invalid token 🚨🚨🚨');
+            return;
+          }
+          window.alert(`Valid token 🎉🎉🎉\n${JSON.stringify(data)}`);
+        });
+    }
+
+    function checkAccessToken() {
+      const accessToken = accessTokenTextArea.value;
+      fetch(`/api/auth/user-info?token=${accessToken}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data == null) {
+            window.alert('Invalid token 🚨🚨🚨');
+            return;
+          }
+          window.alert(`Valid token 🎉🎉🎉\n${JSON.stringify(data)}`);
+        });
+    }
+
+    function refreshRefreshToken() {
+      const refreshToken = refreshTokenTextArea.value;
+      fetch(`/api/auth/refresh-token?token=${refreshToken}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data == null) {
+            window.alert('Failed to refresh token 🚨🚨🚨');
+            return;
+          }
+          const newIdToken = data.id_token;
+          const newAccessToken = data.access_token;
+          window.localStorage.setItem('idToken', newIdToken);
+          window.localStorage.setItem('accessToken', newAccessToken);
+          idTokenTextArea.value = newIdToken;
+          accessTokenTextArea.value = newAccessToken;
+          window.alert(`Refreshed token 🎉🎉🎉\n${JSON.stringify(data)}`);
+        });
+    }
+
+    function exec(tokenName) {
+      switch (tokenName) {
+        case 'idToken':
+          checkIdToken();
+          break;
+        case 'accessToken':
+          checkAccessToken();
+          break;
+        case 'refreshToken':
+          refreshRefreshToken();
+          break;
+      }
+    }
+
+    function logout() {
+      window.localStorage.clear();
+      window.location.href = '/';
+    }
+  </script>
+</body>
+
+</html>
