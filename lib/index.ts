@@ -30,7 +30,8 @@ export class IndexStack extends cdk.Stack {
       },
       attributeMapping: {
         email: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-        name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
+        given_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+        family_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
       },
     });
 
