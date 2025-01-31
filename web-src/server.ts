@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 
 import code2token from './utils/code2token';
-
+import checkIdToken from './utils/checkIdToken';
 dotenv.config();
 dotenv.config({ path: '.env.dynamic' });
 
@@ -32,6 +32,15 @@ app.get('/api/auth/exchange-token', async (req, res) => {
     return;
   }
   res.json(token);
+});
+
+app.get('/api/auth/check-id-token', async (req, res) => {
+  const token = req.query.token as string;
+  const result = await checkIdToken({
+    idToken: token,
+    jwksUrl: process.env.COGNITO_JWKS_URL!,
+  });
+  res.json(result);
 });
 
 app.listen(port, () => {

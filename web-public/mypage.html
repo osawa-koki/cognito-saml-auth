@@ -46,7 +46,11 @@
       fetch(`/api/auth/check-id-token?token=${idToken}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          if (data == null) {
+            window.alert('Invalid token 🚨🚨🚨');
+            return;
+          }
+          window.alert(`Valid token 🎉🎉🎉\n${JSON.stringify(data)}`);
         });
     }
 
