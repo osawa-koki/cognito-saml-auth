@@ -33,6 +33,8 @@ jobs:
           key: node-modules-${{ hashFiles('./**/package-lock.json') }}
       - name: Create dotenv file
         run: echo '${{ secrets.DOTENV }}' > ./.env
+      - name: Create saml-metadata file
+        run: echo '${{ secrets.SAML_METADATA }}' > ./saml-metadata.xml
       - name: Install dependencies
         if: steps.node_modules_cache_id.outputs.cache-hit != 'true'
         run: npm install --omit=dev
