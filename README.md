@@ -2,6 +2,8 @@
 
 🏤🏤🏤 CognitoのSAML認証を行う！  
 
+![成果物](./fruit.gif)  
+
 ## 実行方法
 
 `.env.example`をコピーして`.env`ファイルを作成します。  
