@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Callback</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Callback</h1>
+    <p>ログインしました。</p>
+  </div>
+
+  <script>
+    const code = new URLSearchParams(window.location.search).get('code');
+    fetch(`/api/auth/exchange-token?code=${code}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const idToken = data.id_token;
+        const accessToken = data.access_token;
+        const refreshToken = data.refresh_token;
+        window.localStorage.setItem('idToken', idToken);
+        window.localStorage.setItem('accessToken', accessToken);
+        window.localStorage.setItem('refreshToken', refreshToken);
+      });
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,9 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv';
 
+import code2token from './utils/code2token';
+
+dotenv.config();
 dotenv.config({ path: '.env.dynamic' });
 
 const app = express();
@@ -9,10 +12,26 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('./web-public/'));
+app.use(express.static('./web-public/', {
+  extensions: ['html']
+}));
 
 app.get('/api/auth/saml', (req, res) => {
   res.redirect(process.env.START_URL!);
+});
+
+app.get('/api/auth/exchange-token', async (req, res) => {
+  const token = await code2token({
+    tokenEndpoint: process.env.TOKEN_ENDPOINT!,
+    clientId: process.env.CLIENT_ID!,
+    redirectUri: process.env.CALLBACK_URL!,
+    code: req.query.code as string,
+  });
+  if (token == null) {
+    res.status(403).json({ error: 'Failed to get token' });
+    return;
+  }
+  res.json(token);
 });
 
 app.listen(port, () => {
